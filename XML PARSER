@@ -1,0 +1,38 @@
+package com.programminghelp;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+public class XmlParser {
+
+	public static void main(String[] args) {
+		System.out.println(read("firstname", "properties.xml"));
+		System.out.println(read("lastname", "properties.xml"));
+		System.out.println(read("subject", "properties.xml"));
+	}
+
+	public static String read(String tagName, String fileName) {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		org.w3c.dom.Document doc;
+		String x = null;
+		try {
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(new File(fileName));
+			doc.getDocumentElement().normalize();
+			x = doc.getElementsByTagName(tagName).item(0).getTextContent();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+}
